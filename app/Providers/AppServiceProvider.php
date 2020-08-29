@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
+// use Support\Facades\Schema;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //php version is low in long long ago,use schema
+        //Schema::defaultStringLength(191);
+        JsonResource::withoutWrapping();// response data disappear
     }
 }

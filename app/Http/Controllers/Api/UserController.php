@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Subcategory;
+use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubcategoryResource;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-class SubcategoryController extends Controller
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +18,9 @@ class SubcategoryController extends Controller
      */
     public function index()
     {
-        $subcategories=Subcategory::all();
-        return $subcategories;
+        //
+
+
     }
 
     /**
@@ -28,44 +31,37 @@ class SubcategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-        'name' => 'required|string',
-        'category' => 'required',
-        ]);
+        //
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->email_verified_at = now();
+        $user->remember_token = Str::random(10);
 
-         
-
-
-        //Store Data
-          $subcategory=new Subcategory;
-          $subcategory->name=$request->name;
-          $subcategory->category_id=$request->category;
-          
-
-          $subcategory->save();
-          return new SubcategoryResource($subcategory);
-
+        $user->save();
+        return $user;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Subcategory  $subcategory
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Subcategory $subcategory)
+    public function show(User $user)
     {
-        return $subcategory;
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Subcategory  $subcategory
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subcategory $subcategory)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -73,10 +69,10 @@ class SubcategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Subcategory  $subcategory
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subcategory $subcategory)
+    public function destroy(User $user)
     {
         //
     }

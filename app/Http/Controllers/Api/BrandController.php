@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Brand;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\BrandResource;
 
 class BrandController extends Controller
 {
@@ -13,10 +14,12 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //To return brands, use BrandResource filter.
     public function index()
     {
         $brands=Brand::all();
-        return $brands;
+        return BrandResource::collection($brands);
     }
 
     /**
@@ -27,7 +30,27 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'name' => 'required|string',
+        'photo' => 'required|mimes:jpeg,bmp,png',
+        ]);
+
+         //File Upload
+         $imageName = time().'.'.$request->photo->extension();  
+   
+        $request->photo->move(public_path('backendtemplate/brandimg'), $imageName);
+          $myfile='backendtemplate/brandimg/'.$imageName;
+
+
+        //Store Data
+          $brand=new Brand;
+          $brand->name=$request->name;
+          $brand->photo=$myfile;
+          
+
+          $brand->save();
+          return new BrandResource($brand);
+
     }
 
     /**
@@ -38,7 +61,7 @@ class BrandController extends Controller
      */
     public function show(Brand $brand)
     {
-        return $brand;
+        return new BrandResource($brand);
     }
 
     /**

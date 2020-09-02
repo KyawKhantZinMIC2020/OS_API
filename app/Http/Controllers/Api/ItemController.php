@@ -47,7 +47,7 @@ class ItemController extends Controller
             'brand' => 'required',
             'subcategory' => 'required',
         ]);
-        
+
 
       /*  $customAttributes = [
     'codeno' => 'codeno',
@@ -142,11 +142,12 @@ return new ItemResource($item);
 
 
 
-   if($name || $sid || $bid){// if something have do condition
+   if($name || $sid || $bid)
+   {// if something have do condition
 
     if($name && $sid && $bid){//All data include
         $search = Item::where('subcategory_id',$sid)->where('brand_id',$bid)->where('name', 'like', "%{$name}%")->get();
-        
+
     }else if($name && $sid){//if name and subcategory include
         $search=Item::where('subcategory_id',$sid)->where('name', 'like', "%{$name}%")->get();
     }
